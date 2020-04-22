@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wanghuadi.mapper.HeroMapper">
+
+	<select id="queryAll" parameterType="map" resultType="com.wanghuadi.beans.Hero">
+		select * from hero h , camp c where h.cid = c.cid
+		
+		<if test="cid != null and cid != ''">
+			and c.cid=#{cid}
+		</if>
+		<if test="isHave != null and isHave != ''">
+			and h.isHave=#{isHave}
+		</if>
+		<if test="startPrice != null and startPrice != ''">
+			and h.price>=#{startPrice}
+		</if>
+		<if test="endPrice != null and endPrice != ''">
+			and h.price &lt;=#{endPrice}
+		</if>
+	</select>
+	
+	
+	<select id="queryCamp" resultType="com.wanghuadi.beans.Camp">
+		select * from camp
+	</select>
+	
+	
+	<insert id="addHero" parameterType="com.wanghuadi.beans.Hero">
+		insert into hero 
+		(hname,price,cid,picurl)
+		values
+		(#{hname},#{price},#{cid},#{picurl})
+	</insert>
+	
+	<select id="queryHeroById" parameterType="int" resultType="com.wanghuadi.beans.Hero">
+		select * from hero where id=#{0}
+	</select>
+
+	<update id="updateIsHave" parameterType="int">
+		update hero 
+		set isHave=1
+		where id = #{0}
+	</update>
+
+</mapper>
